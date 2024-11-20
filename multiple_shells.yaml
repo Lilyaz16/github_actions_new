@@ -9,21 +9,26 @@ jobs:
   run-shell-command:
     runs-on: ubuntu-latest
     steps:
-      - name: python commands
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'  # ou une version spécifique
+      - name: Run Python commands
         run: |
           import platform
           print(platform.processor())
         shell: python
+
   run-windows-command:
     runs-on: windows-latest
     needs: ["run-shell-command"]
     steps:
-      - name: current directory with powershell
+      - name: Get current directory with PowerShell
         run: Get-Location
-      - name: current directory with bash
+      - name: Get current directory with Bash
         run: pwd
         shell: bash
-      - name: print some default env variables
+      - name: Print default environment variables
         run: |
           echo "HOME: ${HOME}"
           echo "GITHUB_WORKFLOW: ${GITHUB_WORKFLOW}"
@@ -34,4 +39,3 @@ jobs:
           echo "GITHUB_EVENT_NAME: ${GITHUB_EVENT_NAME}"
           echo "GITHUB_WORKSPACE: ${GITHUB_WORKSPACE}"
         shell: bash
-        workflow_dispatch
